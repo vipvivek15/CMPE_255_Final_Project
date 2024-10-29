@@ -1,0 +1,56 @@
+name: Random Forest Flight Prediction CI
+
+on:
+  push:
+    branches:
+      - main
+      - development* # Matches any branch with "development" in its name
+  pull_request:
+    branches:
+      - main
+      - development*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Specify the Python version you need
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Random Forest Flight Prediction script
+        run: |
+          # Run your script directly
+          python random_forest_flight_prediction.py
+
+      - name: Lint code with flake8
+        run: |
+          # Optional linting step to check for code style issues
+          pip install flake8
+          flake8 random_forest_flight_prediction.py --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Generate coverage report
+        run: |
+          # Optional: Measure code coverage if needed
+          pip install coverage
+          coverage run random_forest_flight_prediction.py
+          coverage report
+          coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
