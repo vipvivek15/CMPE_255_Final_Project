@@ -29,8 +29,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Run Python scripts
-    - name: Run both Python scripts
-      run: |
-        python random_forest_flight_prediction.py && python decision_tree_classification.py
+    # Step 4: Run Random Forest Prediction Script
+    - name: Run Random Forest Prediction
+      run: python random_forest_flight_prediction.py > random_forest.log 2>&1
 
+    # Step 5: Run Decision Tree Classification Script
+    - name: Run Decision Tree Classification
+      run: python decision_tree_classification.py > decision_tree.log 2>&1
+
+    # Step 6: Save logs as artifacts
+    - name: Save logs as artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: logs
+        path: |
+          random_forest.log
+          decision_tree.log
