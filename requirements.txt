@@ -8,5 +8,5 @@ scikit-learn==1.2.1
 # Plotting and visualization
 matplotlib==3.7.1
 
-# Optional: For managing command-line arguments (if used in your scripts)
-argparse==1.4.0
+#visualization
+seaborn==0.12.2
