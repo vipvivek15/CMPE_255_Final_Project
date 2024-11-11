@@ -30,7 +30,7 @@ jobs:
         pip install -r requirements.txt
 
     # Step 4: Run Python scripts
-    - name: Run Python scripts
+    - name: Run both Python scripts
       run: |
-        python random_forest_flight_prediction.py
-        python decision_tree_classification.py
+        python random_forest_flight_prediction.py && python decision_tree_classification.py
+
