@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - development
+      - main
   pull_request:
     branches:
       - development
-
+      - main
 jobs:
   run-python-scripts:
     runs-on: ubuntu-latest
