@@ -37,6 +37,10 @@ jobs:
     - name: Run Decision Tree Classification
       run: python decision_tree_classification.py > decision_tree.log 2>&1
 
+    # Step 6: Run KNN Script
+    - name: Run Decision Tree Classification
+      run: python knn_prediction.py > knn_prediction.log 2>&1
+
     # Step 6: Save logs as artifacts
     - name: Save logs as artifacts
       if: always()
