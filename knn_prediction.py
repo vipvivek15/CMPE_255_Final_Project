@@ -1,13 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import GridSearchCV
+from sklearn.neighbors import KNeighborsClassifier
+import seaborn as sns
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_auc_score
 import matplotlib.pyplot as plt
 
@@ -45,13 +42,6 @@ X_scaled = scaler.fit_transform(X)
 # Split data into training (80%) and test (20%) sets
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, stratify=y)
 
-
-# In[2]:
-
-
-from sklearn.model_selection import GridSearchCV
-from sklearn.neighbors import KNeighborsClassifier
-
 # Define the range for k values
 param_grid = {'n_neighbors': range(1, 21)}
 
@@ -65,10 +55,6 @@ grid_search.fit(X_train, y_train)
 print("Best k:", grid_search.best_params_['n_neighbors'])
 print("Best F1 Score:", grid_search.best_score_)
 
-
-# In[3]:
-
-
 # Extending the range of k values
 param_grid = {'n_neighbors': range(21, 51)}
 grid_search = GridSearchCV(KNeighborsClassifier(), param_grid, cv=5, scoring='f1_weighted')
@@ -76,10 +62,6 @@ grid_search.fit(X_train, y_train)
 
 print("Best k:", grid_search.best_params_['n_neighbors'])
 print("Best F1 Score:", grid_search.best_score_)
-
-
-# In[4]:
-
 
 # Train the KNN model with the optimal k=44
 best_knn_model = KNeighborsClassifier(n_neighbors=44)
@@ -90,10 +72,6 @@ y_pred = best_knn_model.predict(X_test)
 y_pred_proba = best_knn_model.predict_proba(X_test)
 
 # Calculate evaluation metrics
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_auc_score
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred, average='weighted')
 recall = recall_score(y_test, y_pred, average='weighted')
@@ -115,10 +93,3 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix for KNN with k=44")
 plt.show()
-
-
-# In[ ]:
-
-
-
-
