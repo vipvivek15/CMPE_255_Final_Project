@@ -1,0 +1,49 @@
+name: Run Python Files Individually
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  run-python-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        else
+          echo "No requirements.txt found. Skipping dependency installation."
+        fi
+
+    # Step 4: Run each Python file individually
+    - name: Run knn_prediction.py
+      run: |
+        echo "Running knn_prediction.py"
+        python knn_prediction.py
+
+    - name: Run decision_tree_classification.py
+      run: |
+        echo "Running decision_tree_classification.py"
+        python decision_tree_classification.py
+
+    - name: Run random_forest_flight_prediction.py
+      run: |
+        echo "Running random_forest_flight_prediction.py"
+        python random_forest_flight_prediction.py
