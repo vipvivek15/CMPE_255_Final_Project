@@ -35,11 +35,14 @@ data['searchDayOfWeek'] = data['searchDate'].dt.dayofweek
 # Calculate days between search and flight date
 data['daysBeforeFlight'] = (data['flightDate'] - data['searchDate']).dt.days
 
+# Encode categorical features
+data['isBasicEconomy'] = data['isBasicEconomy'].astype(int)
+
 # Defining price categories: Low, Medium, High based on baseFare quantiles
 data['priceCategory'] = pd.qcut(data['baseFare'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Selecting features and target
-X = data[['seatsRemaining', 'totalTravelDistance', 'searchDayOfWeek', 'daysBeforeFlight']]
+X = data[['seatsRemaining', 'isBasicEconomy', 'totalTravelDistance', 'searchDayOfWeek', 'daysBeforeFlight']]
 y = data['priceCategory']
 
 # Split data into training (80%) and test (20%) sets
@@ -70,3 +73,19 @@ print(f'Precision: {precision:.2f}')
 print(f'Recall: {recall:.2f}')
 print(f'F1 Score: {f1:.2f}')
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Plot feature importances
+feature_importances = classifier.feature_importances_
+features = X.columns
+sns.barplot(x=feature_importances, y=features)
+plt.title("Feature Importances in Decision Tree Classifier")
+plt.show()
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Low', 'Medium', 'High'], yticklabels=['Low', 'Medium', 'High'])
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix for Decision Tree")
+plt.show()
