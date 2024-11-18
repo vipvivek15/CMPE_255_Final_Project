@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn import tree
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_auc_score
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -46,16 +47,15 @@ X = data[['seatsRemaining', 'isBasicEconomy', 'totalTravelDistance', 'searchDayO
 y = data['priceCategory']
 
 # Split data into training (80%) and test (20%) sets
-X_train_full, X_test, y_train_full, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Further split the training set into 60% training and 20% validation (of the original dataset)
-X_train, X_val, y_train, y_val = train_test_split(X_train_full, y_train_full, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 print("Dataset Sizes:")
-print(f"Train: {len(X_train)}, Validation: {len(X_val)}, Test: {len(X_test)}")
+print(f"Train: {len(X_train)}, Test: {len(X_test)}")
 
 # Decision Tree classifier
-classifier = DecisionTreeClassifier(random_state=42)
+# After performing grid search the best hyperparameters are:
+# 'criterion': 'gini', 'max_depth': None, 'max_features': None, 'min_samples_leaf': 5, 'min_samples_split': 15
+classifier = DecisionTreeClassifier(min_samples_leaf = 5, min_samples_split=15, random_state=42)
 classifier.fit(X_train, y_train)
 
 # Make predictions on the test set
