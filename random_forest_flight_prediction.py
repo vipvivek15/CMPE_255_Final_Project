@@ -12,7 +12,7 @@ df = pd.read_csv('flights.csv')
 
 # Preprocess the data
 # Select relevant columns
-df = df[['searchDate', 'destinationAirport', 'isNonStop', 'seatsRemaining', 'totalTravelDistance', 'baseFare']]
+df = df[['searchDate', 'destinationAirport', 'isBasicEconomy', 'seatsRemaining', 'totalTravelDistance', 'baseFare']]
 
 # Handle missing values
 df = df.dropna()
@@ -26,14 +26,14 @@ df['year'] = df['searchDate'].dt.year
 df['isWeekend'] = (df['searchDate'].dt.dayofweek >= 5).astype(int)
 
 # Encode categorical features
-df['isNonStop'] = df['isNonStop'].astype(int)
+df['isBasicEconomy'] = df['isBasicEconomy'].astype(int)
 
 # Create target variable by categorizing baseFare
 # Defining price categories: Low, Medium, High based on baseFare quantiles
 df['priceCategory'] = pd.qcut(df['baseFare'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Define target variable and feature set
-X = df[['seatsRemaining', 'totalTravelDistance', 'isNonStop', 'isWeekend', 'day', 'month', 'year']]
+X = df[['seatsRemaining', 'totalTravelDistance', 'isBasicEconomy', 'isWeekend', 'day', 'month', 'year']]
 y = df['priceCategory']
 
 # Split data into training (80%) and test (20%) sets
