@@ -15,11 +15,11 @@ Below are the visual outputs generated during the project:
 ### Confusion Matrices
 - ![Random Forest Confusion Matrix](./confusion_matrix_random_forest.png)
 - ![KNN Confusion Matrix (k=42)](./confusion_matrix_knn_k42.png)
-- ![Decision Tree Confusion Matrix](./onfusion_matrix_decision_tree.png)
+- ![Decision Tree Confusion Matrix](./confusion_matrix_decision_tree.png)
 
 ### Feature Importance Plots
 - ![Random Forest Feature Importance](./feature_importance_random_forest.png)
-- ![Decision Tree Feature Importance](./Feature_importance_decision_tree.png)
+- ![Decision Tree Feature Importance](./feature_importance_decision_tree.png)
 - ![KNN Permutation Feature Importance](./knn_permutation_feature_importances.png)
 
 ### Results
