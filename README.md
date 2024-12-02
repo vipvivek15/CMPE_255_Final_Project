@@ -23,7 +23,7 @@ Below are the visual outputs generated during the project:
 - ![KNN Permutation Feature Importance](./knn_permutation_feature_importances.png)
 
 ### Results
-- ![Random Forests Results Summary](./Random_forest_results.png)
+- ![Random Forests Results Summary](./random_forest_results.png)
 
 ---
 
