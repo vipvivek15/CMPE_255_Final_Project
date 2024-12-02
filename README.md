@@ -19,11 +19,11 @@ Below are the visual outputs generated during the project:
 
 ### Feature Importance Plots
 - ![Random Forest Feature Importance](./feature_importance_random_forest.png)
-- ![General Feature Importance](./feature_importance.png)
+- ![General Feature Importance](./Feature_importance.png)
 - ![KNN Permutation Feature Importance](./knn_permutation_feature_importances.png)
 
-### Additional Results
-- ![Results Summary](./Results.png)
+### Results
+- ![Random Forests Results Summary](./Results.png)
 
 ---
 
