@@ -52,7 +52,28 @@ y = df['priceCategory']
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-# Initialize and train the Random Forest Classifier
+# Grid search was performed to find the ideal hyperparameters for random forest. 
+"""
+# Initialize Random Forest Classifier
+rf = RandomForestClassifier(random_state=42, class_weight='balanced')
+
+# Define hyperparameter grid
+param_grid = {
+    'n_estimators': [50, 100, 200],
+    'max_depth': [10, 20, 30, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
+
+# Perform grid search with cross-validation
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, scoring='f1_weighted', verbose=2, n_jobs=-1)
+grid_search.fit(X_train, y_train)
+
+# Uncomment to print the best parameters
+# print("Best Parameters:", grid_search.best_params_)
+"""
+
+# Use the best parameters directly
 rf_model = RandomForestClassifier(
     n_estimators=100,
     max_depth=20,
@@ -61,6 +82,8 @@ rf_model = RandomForestClassifier(
     random_state=42,
     class_weight='balanced'
 )
+
+# Train the model
 rf_model.fit(X_train, y_train)
 
 # Make predictions on the test set
