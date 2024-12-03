@@ -1,7 +1,7 @@
 # Import libraries
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_auc_score
@@ -39,7 +39,7 @@ data['daysBeforeFlight'] = (data['flightDate'] - data['searchDate']).dt.days
 # Encode categorical features
 data['isBasicEconomy'] = data['isBasicEconomy'].astype(int)
 
-# Defining price categories: Low, Medium, High based on baseFare quantiles
+# Defining price categories: Low, Medium, High using binning
 data['priceCategory'] = pd.qcut(data['baseFare'], q=3, labels=['Low', 'Medium', 'High'])
 
 # Selecting features and target
@@ -53,8 +53,21 @@ print("Dataset Sizes:")
 print(f"Train: {len(X_train)}, Test: {len(X_test)}")
 
 # Decision Tree classifier
+
+# Grid Search
+# classifier = DecisionTreeClassifier()
+# params={'criterion':['gini', 'entropy'],  
+#         'max_depth': [5, 10, 15, None], 
+#         'min_samples_split': [2, 5, 10, 15],
+#         'min_samples_leaf': [1, 2, 4, 5] 
+#         }
+
+# gs=GridSearchCV(estimator=classifier, param_grid=params, cv=5, scoring='accuracy')   
+# gs = gs.fit(X_train, y_train)
+# print("Best Parameters:", gs.best_params_)
+
 # After performing grid search the best hyperparameters are:
-# 'criterion': 'gini', 'max_depth': None, 'max_features': None, 'min_samples_leaf': 5, 'min_samples_split': 15
+# 'criterion': 'gini', 'max_depth': None, 'min_samples_leaf': 5, 'min_samples_split': 15
 classifier = DecisionTreeClassifier(min_samples_leaf = 5, min_samples_split=15, random_state=42)
 classifier.fit(X_train, y_train)
 
@@ -68,10 +81,10 @@ recall = recall_score(y_test, y_pred, average='weighted')
 f1 = f1_score(y_test, y_pred, average='weighted')
 
 # Print evaluation metrics and detailed classification report
-print(f'Accuracy: {accuracy:.2f}')
-print(f'Precision: {precision:.2f}')
-print(f'Recall: {recall:.2f}')
-print(f'F1 Score: {f1:.2f}')
+print(f'Accuracy: {accuracy:.4f}')
+print(f'Precision: {precision:.4f}')
+print(f'Recall: {recall:.4f}')
+print(f'F1 Score: {f1:.4f}')
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
 
 # Plot feature importances
